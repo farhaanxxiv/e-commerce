@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/command";
 import { getProducts } from "@/lib/actions";
 import { formatPrice } from "@/lib/utils";
+import { trackEvent } from "@/lib/umami";
 
 type Product = Awaited<ReturnType<typeof getProducts>>[number];
 
@@ -39,7 +40,8 @@ export function SearchDialog({ currency = "USD" }: { currency?: string }) {
     }
   }, [open, products.length]);
 
-  const handleSelect = (slug: string) => {
+  const handleSelect = (slug: string, name: string) => {
+    trackEvent("search_select", { product: name });
     setOpen(false);
     router.push(`/products/${slug}`);
   };
@@ -47,7 +49,7 @@ export function SearchDialog({ currency = "USD" }: { currency?: string }) {
   return (
     <>
       <button
-        onClick={() => setOpen(true)}
+        onClick={() => { setOpen(true); trackEvent("search_open"); }}
         className="flex items-center gap-1.5 rounded-md px-2 py-2 text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-colors"
         aria-label="Search products"
       >
@@ -73,7 +75,7 @@ export function SearchDialog({ currency = "USD" }: { currency?: string }) {
                 <CommandItem
                   key={product.id}
                   value={product.name + " " + (product.category?.name ?? "") + " " + (product.description ?? "")}
-                  onSelect={() => handleSelect(product.slug)}
+                  onSelect={() => handleSelect(product.slug, product.name)}
                 >
                   {firstImg ? (
                     <img

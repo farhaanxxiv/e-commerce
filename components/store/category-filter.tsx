@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ProductGrid } from "./product-grid";
 import { Package, Tag } from "lucide-react";
+import { trackEvent } from "@/lib/umami";
 
 type MediaItem = { url: string; type: string };
 
@@ -40,7 +41,11 @@ export function CategoryFilter({ products, categories, whatsappNumber, currency 
   const [selected, setSelected] = useState<string | null>(null);
   const activeCategories = categories.filter((c) => c.isActive);
 
-  const toggle = (id: string) => setSelected((prev) => (prev === id ? null : id));
+  const toggle = (id: string) => {
+    const cat = activeCategories.find((c) => c.id === id);
+    if (cat) trackEvent("category_filter", { category: cat.name });
+    setSelected((prev) => (prev === id ? null : id));
+  };
 
   // A category is selected — show only its products
   if (selected !== null) {

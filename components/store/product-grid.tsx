@@ -78,6 +78,9 @@ export function ProductGrid({ products, whatsappNumber, currency = "USD" }: Prod
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-1 rounded-lg bg-green-500 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-green-600 transition-colors"
+                  data-umami-event="whatsapp_buy"
+                  data-umami-event-product={product.name}
+                  data-umami-event-source="product_grid"
                 >
                   <MessageCircle className="h-3 w-3" />
                   Buy

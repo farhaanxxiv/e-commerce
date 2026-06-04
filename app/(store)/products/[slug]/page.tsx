@@ -168,6 +168,9 @@ export default async function ProductPage({
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2.5 rounded-xl bg-green-500 px-6 py-3.5 text-sm font-semibold text-white hover:bg-green-600 transition-colors"
+                  data-umami-event="whatsapp_buy"
+                  data-umami-event-product={product.name}
+                  data-umami-event-source="product_page"
                 >
                   <MessageCircle className="h-5 w-5" />
                   Buy via WhatsApp

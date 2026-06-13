@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   DndContext,
   DragEndEvent,
-  PointerSensor,
+  MouseSensor,
   TouchSensor,
   closestCenter,
   useSensor,
@@ -120,6 +120,7 @@ function SortableTableRow({ cat, editCategory, setEditCategory, onDelete, onSucc
           {...attributes}
           {...listeners}
           className="cursor-grab active:cursor-grabbing p-1.5 rounded text-gray-300 hover:text-gray-500 hover:bg-gray-100 transition-colors touch-none"
+          style={{ touchAction: "none" }}
           aria-label="Drag to reorder"
         >
           <GripVertical className="h-4 w-4" />
@@ -173,6 +174,7 @@ function SortableMobileCard({ cat, editCategory, setEditCategory, onDelete, onSu
           {...attributes}
           {...listeners}
           className="cursor-grab active:cursor-grabbing p-1.5 rounded text-gray-300 hover:text-gray-500 hover:bg-gray-100 transition-colors touch-none flex-shrink-0"
+          style={{ touchAction: "none" }}
           aria-label="Drag to reorder"
         >
           <GripVertical className="h-4 w-4" />
@@ -212,8 +214,8 @@ export function CategoriesClient({ categories: initialCategories }: { categories
   };
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 6 } })
+    useSensor(MouseSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 8 } })
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
